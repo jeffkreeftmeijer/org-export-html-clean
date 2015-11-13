@@ -1,7 +1,15 @@
+;;; ox-html-clean.el --- A clean HTML export for org-export
+
+;;; Commentary:
+;;
+
+;;; Code:
+
 (require 'ox)
 (require 'ox-publish)
 (require 'ox-html)
 (require 'format-spec)
+
 (eval-when-compile (require 'cl))
 
 (org-export-define-derived-backend
@@ -201,7 +209,9 @@ INFO is a plist holding contextual information.  See
      (t (format "<i>%s</i>" desc)))))
 
 (defun html-clean-create-index-folder (orig-fun &rest args)
-  "Patch `org-export-output-file-name' to return my-post/index.html"
+  "Patch `org-export-output-file-name' to return my-post/index.html.
+Argument ORIG-FUN the function being advised.
+Optional argument ARGS the arguments to ORIG-FUN."
 
   (let* ((orig-output (apply orig-fun args))
          (new-output (concat (file-name-sans-extension orig-output) "/index.html")))
@@ -256,8 +266,8 @@ Return output file's name."
 (defun org-html-clean-publish-to-html (plist filename pub-dir)
   "Publish an org file to HTML.
 
-FILENAME is the filename of the Org file to be published.  PLIST
-is the property list for the given project.  PUB-DIR is the
+PLIST is the property list for the given project.  FILENAME is
+the filename of the Org file to be published.  PUB-DIR is the
 publishing directory.
 
 Return output file name."
@@ -269,3 +279,9 @@ Return output file name."
                       plist pub-dir)
   (advice-remove 'org-export-output-file-name
                  #'html-clean-create-index-folder))
+
+(provide 'ox-html-clean)
+
+(provide 'ox-html-clean)
+
+;;; ox-html-clean.el ends here
