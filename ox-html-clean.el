@@ -10,8 +10,6 @@
 (require 'ox-html)
 (require 'format-spec)
 
-(eval-when-compile (require 'cl))
-
 (org-export-define-derived-backend
     'html-clean 'html
   :export-block "HTML-CLEAN"
