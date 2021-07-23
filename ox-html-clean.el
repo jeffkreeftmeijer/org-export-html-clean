@@ -194,8 +194,7 @@ INFO is a plist holding contextual information.  See
                 (format (org-export-get-coderef-format path desc)
                         (org-export-resolve-coderef path info)))))
      ;; Link type is handled by a special function.
-     ((functionp (setq protocol (nth 2 (assoc type org-link-protocols))))
-      (funcall protocol (org-link-unescape path) desc 'html))
+     ((org-export-custom-protocol-maybe link desc 'html info))
      ;; External link with a description part.
      ((and path desc) (format "<a href=\"%s\"%s>%s</a>" path attributes desc))
      ;; External link without a description part.
