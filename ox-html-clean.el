@@ -208,12 +208,14 @@ Argument ORIG-FUN the function being advised.
 Optional argument ARGS the arguments to ORIG-FUN."
 
   (let* ((orig-output (apply orig-fun args))
-         (new-output (concat (file-name-sans-extension orig-output) "/index.html")))
+	 (new-output (concat (file-name-sans-extension orig-output) "/index.html")))
     (if (equal (file-name-nondirectory orig-output) "index.html")
-        orig-output
-      (make-directory (file-name-directory new-output) t)
-      new-output)))
+	orig-output
+      (if (equal (file-name-nondirectory (directory-file-name (file-name-directory orig-output))) (file-name-base orig-output))
+	  (concat (directory-file-name (file-name-directory orig-output)) "/index.html")
 
+	(make-directory (file-name-directory new-output) t)
+	new-output))))
 
 ;;;###autoload
 (defun org-html-clean-export-to-html
