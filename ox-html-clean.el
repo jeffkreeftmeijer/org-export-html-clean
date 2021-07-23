@@ -43,13 +43,11 @@ INFO is a plist holding contextual information.  See
          ;; Ensure DESC really exists, or set it to nil.
          (desc (org-string-nw-p desc))
          (path
-          (cond
-           ((member type '("http" "https" "ftp" "mailto"))
-            (org-link-escape
-             (org-link-unescape
-              (concat type ":" raw-path)) org-link-escape-chars-browser))
-           ((string= type "file")
-            ;; Treat links to ".org" files as ".html", if needed.
+	  (cond
+	   ((member type '("http" "https" "ftp" "mailto"))
+	    (url-encode-url (concat type ":" raw-path)))
+	   ((string= type "file")
+	    ;; Treat links to ".org" files as ".html", if needed.
             (setq raw-path
                   (funcall link-org-files-as-html-maybe raw-path info))
             ;; If file path is absolute, prepend it with protocol
