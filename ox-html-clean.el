@@ -12,7 +12,6 @@
 
 (org-export-define-derived-backend
     'html-clean 'html
-  :export-block "HTML-CLEAN"
   :menu-entry '(?H "Export as Clean HTML" org-html-clean-export-to-html)
   :translate-alist
   '((link . org-html-clean-link)))
