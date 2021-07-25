@@ -30,7 +30,7 @@ INFO is a plist holding contextual information.  See
 	     ((and (plist-get info :html-link-org-files-as-html)
 		   (string= ".org"
 			    (downcase (file-name-extension raw-path "."))))
-	      (concat (file-name-sans-extension raw-path) dot html-ext))
+	      (html-clean-output-path raw-path))
 	     (t raw-path))))
 	 (type (org-element-property :type link))
 	 (raw-path (org-element-property :path link))
@@ -204,6 +204,15 @@ INFO is a plist holding contextual information.  See
      ;; No path, only description.  Try to do something useful.
      (t
       (format "<i>%s</i>" desc)))))
+
+(defun html-clean-output-path (orig-output)
+  (string-remove-suffix
+   "index/"
+   (concat "/"
+	   (if (equal (file-name-nondirectory (directory-file-name (or (file-name-directory orig-output) ""))) (file-name-base orig-output))
+	       (directory-file-name (file-name-directory orig-output))
+	     (file-name-sans-extension orig-output))
+	   "/")))
 
 (defun html-clean-create-index-folder (orig-fun &rest args)
   "Patch `org-export-output-file-name' to return my-post/index.html.
